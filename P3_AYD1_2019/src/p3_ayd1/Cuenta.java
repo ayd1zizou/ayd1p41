@@ -732,16 +732,12 @@ public class Cuenta extends Utilidad {
 				celCodUsu.setCellType(HSSFCell.CELL_TYPE_STRING);
 				celCodUsu.setCellValue("Cod. Usuario");
 				
-				
+				 
 				HSSFCell celNumCuenta = row.createCell((short)8);
 				estil.setFillPattern(HSSFCellStyle.ALIGN_CENTER);
 				celNumCuenta.setCellStyle(estil);
 				celNumCuenta.setCellType(HSSFCell.CELL_TYPE_STRING);
 				celNumCuenta.setCellValue("No. Cuenta");
-				
-				
-				
-				
 				
 				
 				int a = 0;
