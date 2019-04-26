@@ -1,0 +1,209 @@
+<?page title="Administracion" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window id="wadmin" title="ADMINISTRACIÓN" border="normal" apply="p3_ayd1.Administrador" >
+<label value="Numero cuenta:  " /><label id="lbldcuenta" value="" /><separator/>
+<label value="Nombre:  " /><label id="lbldnombre" value="" /><separator/>
+<label value="Usuario:  " /><label id="lbldusuario" value="" /><separator/>
+<label value="Codigo Usuario:  " /><label id="lbldcodigo" value="" /><separator/>
+
+<tabbox orient="top" >
+	<tabs>
+		<tab label="PERFIL" />
+		<tab label="SOLICITUD CREDITOS" />
+		<tab label="REALIZACION DEBITOS" />
+		<tab label="ADMINISTRAR USUARIOS" />
+	</tabs>
+	<tabpanels>
+		<tabpanel id="tPerfil" >
+			<label value="Usuario:  " /> <space width="21px" /> 
+			<textbox id="txtpUsuario" maxlength="45" disabled="true" />
+			<label value="" id="lblpUsuario" style="color:red"/>
+			<separator/>
+			
+			<label value="Nombre:  " /> <space width="21px" /> 
+			<textbox id="txtpNombre" maxlength="100"/>
+			<label value="" id="lblpNombre" style="color:red"/>
+			<separator/>
+			
+			<label value="Email:  " /> <space width="38px" /> 
+			<textbox id="txtpEmail" maxlength="45"/>
+			<label value="" id="lblpEmail" style="color:red"/>
+			<separator/>
+			
+			<label value="Contraseña:  " />
+			<textbox id="txtpContrasenia" maxlength="8"/>
+			<label value="" id="lblpContrasenia" style="color:red"/>
+			<separator/>
+			<label value="" id="lblrperfil" style="color:blue"/>
+			<separator/>
+			<button label="Guardar Perfil" id="btnPerfil"  />
+		</tabpanel>
+	
+	
+		<tabpanel id="tsolicitud" >
+			<div height="500px" >
+	
+				 <listbox id="tablasolicitud" rows="4" sizedByContent="true" 
+					 multiple="false"  fixedLayout = "true" mold="paging" pageSize="4"
+					 emptyMessage="No hay registros de solicitud"
+					 model="@{wadmin$composer.listasolicitud }"
+					width="100%"
+				>
+			            <listhead >
+			            	
+			                <listheader label="No. Solicitud" align = "center" width="120px" />
+			                <listheader label="Monto" align = "center" width="130px" />
+			                <listheader label="Descripcion" align = "center" width="300px"/>
+			                <listheader label="Fecha Solicitud" align = "center" width="130px"/>
+			                <listheader label="Estado" align = "center" width="120px" />
+			                <listheader label="Cod. Usuario" align = "center" width="120px"/>
+			                <listheader label="Cod. Admin" align = "center" width="110px" />
+			                <listheader label="Aprobar" align = "center" width="145px" />
+			                
+			                
+			                
+			            </listhead>
+			              
+			            <listitem  self="@{each='listasolicitud'}" value="@{Solicitud_dto}"  draggable="true"  selected="true" >			            	
+			            	<listcell label ="@{listasolicitud.COD_SOLICITUD_CREDITO}"/>
+			            	<listcell label ="@{listasolicitud.MONTO}"/>
+			            	<listcell label ="@{listasolicitud.DESCRIPCION}"/>
+			            	<listcell label ="@{listasolicitud.FECHA_SOLICITUD}"/>
+			            	<listcell label ="@{listasolicitud.ESTADO}"/>
+			            	<listcell label ="@{listasolicitud.USUARIO_COD_USUARIO}"/>
+			            	<listcell label ="@{listasolicitud.ADMIN_COD_USUARIO1}"/>
+			            	<listcell  >
+			            		<button label="Si" id="btnAprobar"  />
+			            		<button label="No " id="btnReprobar"  />
+			            	</listcell>
+			            </listitem>
+			         
+			   </listbox>
+			   <separator height="20px"/>
+				
+			   
+			   <separator height="30px"/>
+				
+			</div>
+			
+		</tabpanel>
+		
+		
+		<tabpanel id="tDebito" >
+			<div height="300px" >
+	
+				 <listbox id="tabladebito" rows="4" sizedByContent="true" 
+					 multiple="false"  fixedLayout = "true" mold="paging" pageSize="4"
+					 emptyMessage="No hay registros de creditos"
+					 model="@{wadmin$composer.listacredito }"
+					width="100%"
+				>
+			            <listhead >
+			            	
+			                <listheader label="No. Credito" align = "center" width="120px" />
+			                <listheader label="Monto" align = "center" width="130px" />
+			                <listheader label="Descripcion" align = "center" width="300px"/>
+			                <listheader label="Residuo" align = "center" width="145px" />
+			                <listheader label="Fecha" align = "center" width="120px" />
+			                <listheader label="Fecha Residuo" align = "center" width="130px"/>			                
+			                <listheader label="Estado" align = "center" width="120px"/>
+			                <listheader label="No. Cuenta" align = "center" width="120px" />
+			                <listheader label="Cod. Usuario" align = "center" width="120px" />
+			                <listheader  align = "center" width="120px" />
+			                
+			                
+			            </listhead>
+			              
+			            <listitem id="liCredito"  self="@{each='listacredito'}" value="@{Credito_dto}"  draggable="true"  selected="true" >			            	
+			            	<listcell label ="@{listacredito.NO_CREDITO}"/>
+			            	<listcell label ="@{listacredito.MONTO}"/>
+			            	<listcell label ="@{listacredito.DESCRIPCION}"/>
+			            	<listcell label ="@{listacredito.RESIDUO}"/>
+			            	<listcell label ="@{listacredito.FECHA}"/>
+			            	<listcell label ="@{listacredito.FECHA_RESIDUO}"/>
+			            	<listcell label ="@{listacredito.ESTADO}"/>
+			            	<listcell label ="@{listacredito.CUENTA_NO_CUENTA}"/>
+			            	<listcell label ="@{listacredito.CUENTA_USUARIO_COD_USUARIO}"/>
+			            	<listcell  >			            		
+			            		<button label="Eliminar" id="btnEliminar"  />
+			            	</listcell>
+			            </listitem>
+			         
+			   </listbox>
+			   
+			  </div>
+			   <separator height="20px"/>
+			
+			
+			<label value="DEBITOS" style="color:blue;font-size:30px;"/><separator height="20" />
+			<separator  height="10px" />
+			<label value="Numero Cuenta a Debitar: " /><textbox id="txttocuenta" />
+			<label value="" id="lbledebitocuenta" style="color:red"/>
+			<separator height="20" />
+			
+			<label value="Monto a Debitar: " />  <space width="66px" /> <textbox id="txtdmonto" />
+			<label value="" id="lbledmonto" style="color:red"/>			
+			<separator height="20" />
+			<label value="Descripcion:  " /> <space width="100px" /> 
+			<textbox id="txtdesDebito" multiline="true" maxlength="99" />
+			<label value="" id="lbledesDebito" style="color:red"/><separator/>
+			<label value="Debito por Credito?:  " /> <space width="41px" />
+			<combobox readonly="true" id="cmbCre" >
+				<comboitem label="si" value="si" >					
+				</comboitem>
+				<comboitem label="no" value="no" >					
+				</comboitem>
+			</combobox>
+			<label value="" id="lblecre" style="color:red"/><separator/>
+			<button label="Debitar" id="btnDebitar"  /><separator />
+			<label value="" id="lblrdebito" style="color:blue"/>
+		</tabpanel>
+		
+		
+		
+		<tabpanel id="tAdminUsuario" >
+			
+			
+			<div height="500px" >
+	
+				 <listbox id="tablausuario" rows="4" sizedByContent="true" 
+					 multiple="false"  fixedLayout = "true" mold="paging" pageSize="4"
+					 emptyMessage="No hay registros de solicitud"
+					 model="@{wadmin$composer.listausuario}"
+					width="92%"
+				>
+			            <listhead >
+			            	
+			                <listheader label="Cod. Usuario" align = "center" width="120px" />
+			                <listheader label="Usuario" align = "center" width="130px" />
+			                <listheader label="Nombre" align = "center" width="300px"/>
+			                <listheader label="Email" align = "center" width="280px"/>
+			                <listheader label="Rol" align = "center" width="120px" />
+			                <listheader  align = "center" width="120px" />
+			                
+			                
+			            </listhead>
+			              
+			            <listitem  self="@{each='listausuario'}" value="@{Usuario_dto}"  draggable="true"  selected="true" >			            	
+			            	<listcell label ="@{listausuario.COD_USUARIO}"/>
+			            	<listcell label ="@{listausuario.USUARIO}"/>
+			            	<listcell label ="@{listausuario.NOMBRE}"/>
+			            	<listcell label ="@{listausuario.EMAIL}"/>
+			            	<listcell label ="@{listausuario.ROL}"/>
+			            	<listcell  >
+			            		<button label="Eliminar" id="btnEliminUsu"  />
+			            	</listcell>
+			            </listitem>
+			         
+			   </listbox>
+			</div>
+			
+		</tabpanel>
+		
+		
+	</tabpanels>
+</tabbox>
+<div height="60px" ></div>
+<button id="btnsalir" label="Salir" />
+</window>
+</zk>

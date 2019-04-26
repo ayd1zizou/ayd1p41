@@ -1,0 +1,24 @@
+<?page title="REGISTRO USUARIO" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window id="wregistro" title="REGISTRO USUARIO" border="normal" apply="p3_ayd1.Registro" >
+
+
+<div align="left"  >
+<label value="Nombre completo:  " /><textbox id ="txtnombre" maxlength="100" width="200px" /><label value="" id="lblnombre" style="color:red"/><separator/>
+<label value="Usuario:  "/> <space width="68px" />   <textbox id ="txtusuario" maxlength="12" width="200px"/><label value="" id="lblusuario" style="color:red"/> <separator/>
+<label value="Contraseña:  " /> <space width="40px" />   <textbox id ="txtcontrasenia" maxlength="8" width="200px"/><label value="" id="lblcontrasenia" style="color:red"/><separator/>
+<label value="Email:  " /> <space width="82px" />   <textbox id ="txtemail" maxlength="45" width="200px"/> <label value="" id="lblemail" style="color:red"/>  <separator/>
+
+</div>
+<div align="left"  >
+
+
+</div>
+<button id="btningresar" label="Crear" onClick="" /><separator/>
+<label value="" id="lblerror" style="color:red"/>  <separator/>
+<button id="btnSalir" label="Salir"  href="../P3_AYD1/login.zul" /><separator/>
+<label value="" id="lblresultado" style="color:blue"/>
+
+
+</window>
+</zk>

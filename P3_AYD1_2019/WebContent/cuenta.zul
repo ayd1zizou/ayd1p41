@@ -1,0 +1,136 @@
+<?page title="CUENTA BANCARIA" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window id="wcuenta" title="CUENTA BANCARIA" border="normal" apply="p3_ayd1.Cuenta" >
+<label value="Numero cuenta:  " /><label id="lbldcuenta" value="" /><separator/>
+<label value="Nombre:  " /><label id="lbldnombre" value="" /><separator/>
+<label value="Usuario:  " /><label id="lbldusuario" value="" /><separator/>
+<label value="Codigo Usuario:  " /><label id="lbldcodigo" value="" /><separator/>
+
+<tabbox orient="top" >
+	<tabs>
+		<tab label="PERFIL" />
+		<tab label="CUENTA" />
+		<tab label="CREDITO" />
+		<tab label="HISTORIAL TRANSFERENCIAS" />
+		
+	</tabs>
+	<tabpanels>
+		<tabpanel id="tPerfil" >
+			<label value="Usuario:  " /> <space width="21px" /> 
+			<textbox id="txtpUsuario" maxlength="45" disabled="true" />
+			<label value="" id="lblpUsuario" style="color:red"/>
+			<separator/>
+			
+			<label value="Nombre:  " /> <space width="21px" /> 
+			<textbox id="txtpNombre" maxlength="100"/>
+			<label value="" id="lblpNombre" style="color:red"/>
+			<separator/>
+			
+			<label value="Email:  " /> <space width="38px" /> 
+			<textbox id="txtpEmail" maxlength="45"/>
+			<label value="" id="lblpEmail" style="color:red"/>
+			<separator/>
+			
+			<label value="Contraseña:  " />
+			<textbox id="txtpContrasenia" maxlength="8"/>
+			<label value="" id="lblpContrasenia" style="color:red"/>
+			<separator/>
+			<label value="" id="lblrperfil" style="color:blue"/>
+			<separator/>
+			<button label="Guardar Perfil" id="btnPerfil"  />
+		</tabpanel>
+		
+		
+		<tabpanel id="tTransferencia" >
+			<label value="MONTO CUENTA:    " /><label id="lblmonto" value="" /><separator height="20" />
+			<label value="TRANSFERENCIAS" style="color:blue;font-size:30px;"/><separator height="20" />
+			<separator  height="10px" />
+			<label value="Numero Cuenta a Transferir: " /><textbox id="txttocuenta" />
+			<label value="" id="lbletcuenta" style="color:red"/>
+			<separator height="20" />
+			
+			<label value="Monto a Transferir: " />  <space width="66px" /> <textbox id="txttmonto" />
+			<label value="" id="lbletmonto" style="color:red"/>
+			<separator height="20" />
+			<button label="Transferir" id="btntransferir"  /><separator />
+			<label value="" id="lblrtransferencia" style="color:blue"/>
+		</tabpanel>
+		
+		<tabpanel id="tCredito" >
+			<label value="Monto a acreditar:  " /> <space width="21px" /> 
+			<textbox id="txtmacreditar" />
+			<label value="" id="lblemacreditar" style="color:red"/><separator/>
+			
+			
+			<label value="Descripcion:  " /> <space width="61px" /> 
+			<textbox id="txtdacreditar" multiline="true" maxlength="100" />
+			<label value="" id="lbledacreditar" style="color:red"/><separator/>
+			
+			<button label="Acreditar monto" id="btnacreditar"  /><separator/>
+			<label value="" id="lblrcredito" style="color:blue"/>
+		</tabpanel>
+		
+		<tabpanel id="tHistorial" >
+			
+			<div height="400px" >
+	
+				 <listbox id="tablahistorial" rows="4" sizedByContent="true" 
+					 multiple="true"  fixedLayout = "true" mold="paging" pageSize="4"
+					 emptyMessage="No hay registros para visualizar el historial"
+					 model="@{wcuenta$composer.listaTransferencia }"
+					width="100%"
+					
+				>
+			            <listhead >
+			            	
+			                <listheader label="Código" align = "center" width="90px" />
+			                <listheader label="Descripción" align = "center" width="340px"/>
+			                <listheader label="Cuenta Receptora" align = "center" width="180px"/>
+			                <listheader label="Monto" align = "center" width="180px"/>
+			                <listheader label="Fecha" align = "center" width="120px" />
+			                <listheader label="Cod. Usuario" align = "center" width="130px" />
+			                <listheader label="No. Cuenta" align = "center" width="130px"/>
+			                
+			                
+			            </listhead>
+			              
+			            <listitem  self="@{each='listaTransferencia'}" value="@{Debito_dto}"  draggable="true"  selected="true" >			            	
+			            	<listcell label ="@{listaTransferencia.NO_DEBITO}"/>
+			            	<listcell label ="@{listaTransferencia.DESCRIPCION}"/>
+			            	<listcell label ="@{listaTransferencia.CUENTA_RECEPTORA}"/>
+			            	<listcell label ="@{listaTransferencia.MONTO}"/>			            	            	 
+			            	<listcell label ="@{listaTransferencia.FECHA}"/>
+			            	<listcell label ="@{listaTransferencia.CUENTA_USUARIO_COD_USUARIO}"/>
+			            	<listcell label ="@{listaTransferencia.CUENTA_NO_CUENTA}"/>
+			            </listitem>
+			         
+			   </listbox>
+			   <separator height="20px"/>
+				
+			   
+			   <separator height="30px"/>
+				
+			</div>
+			
+		</tabpanel>
+		
+		<tabpanel id="tDebito" >
+			<label value="Monto a debitar:  " /> <space width="31px" /> 
+			<textbox id="txtmadebitar" />
+			<label value="" id="lblemadebitar" style="color:red"/><separator/>
+			
+			
+			<label value="Descripcion:  " /> <space width="61px" /> 
+			<textbox id="txtdadebitar" multiline="true"/>
+			<label value="" id="lbledadebitar" style="color:red"/><separator/>
+			
+			<button label="Debitar monto" id="btnadebitar"  /><separator/>
+			<label value="" id="lblrdebito" style="color:blue"/>
+		</tabpanel>
+		
+	</tabpanels>
+</tabbox>
+<div height="60px" ></div>
+<button id="btnsalir" label="Salir" />
+</window>
+</zk>

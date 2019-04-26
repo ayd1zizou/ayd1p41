@@ -1,0 +1,14 @@
+<?page title="LOGIN" contentType="text/html;charset=UTF-8"?>
+<zk>
+<div height="26%" ></div>
+<div align="center" height="45%" >
+	<window id="wlogin" title="LOGIN" border="normal" apply="p3_ayd1.Login"  width="27%" height="110%" >
+	<label value="Codigo: " /><space width="30px" /> <textbox id ="txtcodigo" /><label value="" id="lblcodigo" style="color:red"/><separator/>
+	<label value="Usuario: " /> <space width="28px" />  <textbox id ="txtusuario" maxlength="12"/><label value="" id="lblusuario" style="color:red"/><separator/>
+	<label value="Contraseña: " /><textbox id="txtcontrasenia" maxlength="8" type="password" /><label value="" id="lblcontrasenia" style="color:red"/><separator/>	
+	<button id="btningresar" label="Ingresar"  /><separator/>
+	<label value="" id="lblError" style="color:red"/><separator/>
+	<a label="Registrarse" href="../P3_AYD1/registro.zul" ></a>
+	</window>
+</div>
+</zk>
