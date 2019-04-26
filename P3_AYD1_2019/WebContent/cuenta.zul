@@ -87,24 +87,24 @@
 			            <listhead >
 			            	
 			                <listheader label="Código" align = "center" width="90px" />
+			                <listheader label="Fecha" align = "center" width="120px" />
+			                <listheader label="Usuario" align = "center" width="90px" />
 			                <listheader label="Monto" align = "center" width="180px"/>			                
 			                <listheader label="Descripción" align = "center" width="340px"/>			                
-			                <listheader label="Cuenta Receptora" align = "center" width="180px"/>
-			                <listheader label="Usuario" align = "center" width="90px" />
-			                <listheader label="Cod. Usuario" align = "center" width="130px" />
-			                <listheader label="Fecha" align = "center" width="120px" />
+			                <listheader label="Cuenta Receptora" align = "center" width="180px"/>			                
+			                <listheader label="Cod. Usuario" align = "center" width="130px" />			                
 			                <listheader label="No. Cuenta" align = "center" width="130px"/>
 			                
 			            </listhead>
 			              
 			            <listitem  self="@{each='listaTransferencia'}" value="@{Debito_dto}"  draggable="true"  selected="true" >			            	
 			            	<listcell label ="@{listaTransferencia.NO_DEBITO}"/>
+			            	<listcell label ="@{listaTransferencia.FECHA}"/>
+			            	<listcell label ="@{listaTransferencia.USUARIO}"/>
 			            	<listcell label ="@{listaTransferencia.MONTO}"/>
 			            	<listcell label ="@{listaTransferencia.DESCRIPCION}"/>
-			            	<listcell label ="@{listaTransferencia.CUENTA_RECEPTORA}"/>
-			            	<listcell label ="@{listaTransferencia.USUARIO}"/>
-			            	<listcell label ="@{listaTransferencia.CUENTA_USUARIO_COD_USUARIO}"/>			            	            	 
-			            	<listcell label ="@{listaTransferencia.FECHA}"/>			            	
+			            	<listcell label ="@{listaTransferencia.CUENTA_RECEPTORA}"/>			            	
+			            	<listcell label ="@{listaTransferencia.CUENTA_USUARIO_COD_USUARIO}"/>
 			            	<listcell label ="@{listaTransferencia.CUENTA_NO_CUENTA}"/>
 			            </listitem>
 			         

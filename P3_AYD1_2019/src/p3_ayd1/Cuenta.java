@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,11 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -21,6 +27,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.util.media.Media;
 import org.zkoss.zhtml.Filedownload;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -646,6 +653,226 @@ public class Cuenta extends Utilidad {
 			{
 				
 				
+				
+				HSSFWorkbook libro = new HSSFWorkbook();
+				HSSFSheet hoja = libro.createSheet();
+				libro.setSheetName(0, "HIstorial");
+				
+				
+				
+				HSSFRow row = hoja.createRow(0);
+				HSSFFont fontRedBold = libro.createFont();
+				HSSFFont fontNormal = libro.createFont();
+				fontRedBold.setColor(HSSFFont.COLOR_NORMAL);
+				fontRedBold.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+				fontNormal.setColor(HSSFFont.COLOR_NORMAL);
+				fontNormal.setBoldweight(HSSFFont.BOLDWEIGHT_NORMAL);
+				// Create the style
+				HSSFCellStyle cellStyleRedBold = libro.createCellStyle();
+				HSSFCellStyle cellStyleNormal = libro.createCellStyle();
+				cellStyleRedBold.setFont(fontRedBold);
+				cellStyleNormal.setFont(fontNormal);
+				// encabezados		
+				
+				HSSFCellStyle estil = libro.createCellStyle();
+				HSSFFont font = libro.createFont();
+				font.setFontHeightInPoints((short) 15);
+				font.setFontName("Bookman Old Style");
+				font.setItalic(true);					
+				estil.setFont(font);
+				cellStyleNormal.setFont(font);
+				cellStyleRedBold.setFont(font);
+				
+				row = hoja.createRow(1);
+				HSSFCell celcoddeb = row.createCell((short)1);
+				estil.setFillPattern(HSSFCellStyle.ALIGN_CENTER);
+				celcoddeb.setCellStyle(estil);
+				celcoddeb.setCellType(HSSFCell.CELL_TYPE_STRING);
+				celcoddeb.setCellValue("No. Debito");
+				
+				
+				HSSFCell celFecha = row.createCell((short)2);
+				estil.setFillPattern(HSSFCellStyle.ALIGN_CENTER);
+				celFecha.setCellStyle(estil);
+				celFecha.setCellType(HSSFCell.CELL_TYPE_STRING);
+				celFecha.setCellValue("Fecha");;
+				
+				
+				
+				HSSFCell celUsuario = row.createCell((short)3);
+				estil.setFillPattern(HSSFCellStyle.ALIGN_CENTER);
+				celUsuario.setCellStyle(estil);
+				celUsuario.setCellType(HSSFCell.CELL_TYPE_STRING);
+				celUsuario.setCellValue("Usuario");;
+				
+				HSSFCell celMonto = row.createCell((short)4);
+				estil.setFillPattern(HSSFCellStyle.ALIGN_CENTER);
+				celMonto.setCellStyle(estil);
+				celMonto.setCellType(HSSFCell.CELL_TYPE_STRING);
+				celMonto.setCellValue("Monto");;
+				
+				
+				HSSFCell celDescrip = row.createCell((short)5);
+				estil.setFillPattern(HSSFCellStyle.ALIGN_CENTER);
+				celDescrip.setCellStyle(estil);
+				celDescrip.setCellType(HSSFCell.CELL_TYPE_STRING);
+				celDescrip.setCellValue("Fecha");;
+				
+				
+				HSSFCell celcuentare = row.createCell((short)6);
+				estil.setFillPattern(HSSFCellStyle.ALIGN_CENTER);
+				celcuentare.setCellStyle(estil);
+				celcuentare.setCellType(HSSFCell.CELL_TYPE_STRING);
+				celcuentare.setCellValue("Cuenta Receptora");
+				
+				
+				HSSFCell celCodUsu = row.createCell((short)7);
+				estil.setFillPattern(HSSFCellStyle.ALIGN_CENTER);
+				celCodUsu.setCellStyle(estil);
+				celCodUsu.setCellType(HSSFCell.CELL_TYPE_STRING);
+				celCodUsu.setCellValue("Cod. Usuario");
+				
+				
+				HSSFCell celNumCuenta = row.createCell((short)8);
+				estil.setFillPattern(HSSFCellStyle.ALIGN_CENTER);
+				celNumCuenta.setCellStyle(estil);
+				celNumCuenta.setCellType(HSSFCell.CELL_TYPE_STRING);
+				celNumCuenta.setCellValue("No. Cuenta");
+				
+				
+				
+				
+				
+				
+				int a = 0;
+				//listado de telefonos
+				
+				for(int i = 0; i < listaTransferencia.size(); i++){
+					if(i == 0){
+						a = 2;
+					}		
+					row = hoja.createRow(a);
+					HSSFCell celda1 = row.createCell((short)0);
+					celda1.setCellStyle(cellStyleRedBold);
+					celda1.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda1.setCellValue(i+1);
+					
+					Debito_dto db =listaTransferencia.get(i);
+					
+					
+					HSSFCell c1 = row.createCell((short)1);
+					c1.setCellStyle(cellStyleNormal);
+					c1.setCellType(HSSFCell.CELL_TYPE_STRING);							
+					c1.setCellValue(db.getNO_DEBITO().toString());			
+					
+					HSSFCell c2 = row.createCell((short)2);
+					c2.setCellStyle(cellStyleNormal);
+					c2.setCellType(HSSFCell.CELL_TYPE_STRING);	
+					c2.setCellValue(db.getFECHA().toString());
+					
+					HSSFCell c21 = row.createCell((short)3);
+					c21.setCellStyle(cellStyleNormal);
+					c21.setCellType(HSSFCell.CELL_TYPE_STRING);	
+					c21.setCellValue(db.getUSUARIO().toString());
+					
+					HSSFCell c3 = row.createCell((short)4);
+					c3.setCellStyle(cellStyleNormal);
+					c3.setCellType(HSSFCell.CELL_TYPE_STRING);	
+					c3.setCellValue(db.getMONTO().toString());
+					
+					HSSFCell c4 = row.createCell((short)5);
+					c4.setCellStyle(cellStyleNormal);
+					c4.setCellType(HSSFCell.CELL_TYPE_STRING);
+					c4.setCellValue(db.getDESCRIPCION().toString());
+					
+					
+					HSSFCell c5 = row.createCell((short)6);
+					c5.setCellStyle(cellStyleNormal);
+					c5.setCellType(HSSFCell.CELL_TYPE_STRING);			
+					c5.setCellValue(""+db.getCUENTA_RECEPTORA());
+					
+					HSSFCell c6 = row.createCell((short)7);
+					c6.setCellStyle(cellStyleNormal);
+					c6.setCellType(HSSFCell.CELL_TYPE_STRING);			
+					c6.setCellValue(db.getCUENTA_USUARIO_COD_USUARIO());
+					
+					HSSFCell c7 = row.createCell((short)8);
+					c7.setCellStyle(cellStyleNormal);
+					c7.setCellType(HSSFCell.CELL_TYPE_STRING);			
+					c7.setCellValue(db.getCUENTA_NO_CUENTA());
+					
+					a++;			
+				}
+				hoja.setDefaultColumnWidth((short)40);					
+				
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		        libro.write(baos);
+		        AMedia amedia = new AMedia("historial.xls", "xls",
+		                "application/file", baos.toByteArray());
+		        Filedownload.save(amedia);
+		        baos.close();
+				
+				
+				
+				
+				
+				
+				
+				/*
+				
+				int filas = listaTransferencia.size();
+				HSSFCellStyle estil = libro.createCellStyle();
+				for(int i =0; i< filas; i++){
+					//String fila =(String) a.get(i);
+					//StringTokenizer st = new StringTokenizer(fila, ",");
+					HSSFRow row = hoja.createRow(i);				
+					//int j=0;
+					//while(st.hasMoreTokens()){
+						//String tok = st.nextToken();
+						Debito_dto deb = listaTransferencia.get(i);
+						//para la cabecera, la primera fila, aplicamos un estilo(negrita y color de fondo azul)
+						if(i ==0){
+							
+							estil.setFillPattern(HSSFCellStyle.ALIGN_CENTER);
+							HSSFFont font = libro.createFont();
+							font.setFontHeightInPoints((short) 15);
+							font.setFontName("Bookman Old Style");
+							font.setItalic(true);					
+							estil.setFont(font);
+							createCell(row, (short) 1, deb.getNO_DEBITO().toString() , estil);
+							createCell(row,(short)2, deb.getMONTO().toString(), estil);						
+						}else{
+							createCell(row, (short) 1, deb.getNO_DEBITO().toString() , estil);
+							createCell(row,(short)2, deb.getMONTO().toString(), estil);
+												
+						}
+						//j = j+1;					
+					//}				
+				}
+				
+				//asignar automaticamente el tamano de las celdas en funcion del contenido
+				hoja.setDefaultColumnWidth((short)25);	
+				FileOutputStream fOut = new FileOutputStream("reporte_cuenta");
+				// Write the Excel sheet
+				libro.write(fOut);
+				
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		        libro.write(baos);
+		        AMedia amedia = new AMedia("historial.xls", "xls",
+		                "application/file", baos.toByteArray());
+		        Filedownload.save(amedia);
+		        baos.close();
+				
+				
+				
+				*/
+				
+				
+				
+				
+				
+				
+				
 				/*
 				
 				
@@ -696,126 +923,17 @@ public class Cuenta extends Utilidad {
 		}
 	}	
 	
-	private Workbook generateExcelWorkbook(String fileName,
-			List<? extends Object> objects) throws Exception {
-		System.out.println("ruta: "+fileName);
-		InputStream in = this.getClass().getResourceAsStream(fileName);
-		try {
-			Workbook wb = WorkbookFactory.create(in);
-			return generateExcelWorkbook(wb, objects);
-		} finally {
-			in.close();
-		}
-	}
 	
-	protected byte[] excelAsByteArray(Workbook wb) throws Exception {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		wb.write(out);
-		return out.toByteArray();
-	}
-	
-	protected Workbook generateExcelWorkbook(Workbook workbookBase,
-			List<? extends Object> objects) throws Exception {
-		if (workbookBase == null) {
-			throw new IllegalArgumentException("workbookBase can't be null.");
-		}
-		Sheet sheet = workbookBase.getSheetAt(0);
-		fillExcelSheet(sheet, objects, 0);
-		if (objects.size() > 65535){
-			Sheet sheet2 = workbookBase.getSheetAt(1);
-			fillExcelSheet(sheet2, objects, 65534);
-			setAutoFilter(sheet2);
-		}
-		setAutoFilter(sheet);
-
-		return workbookBase;
-	}
-	
-	protected int fillExcelSheet(Sheet sheet, List<? extends Object> objects,
-			int startIndex) {
-		if (sheet == null) {
-			throw new IllegalArgumentException("sheet can't be null.");
-		}
-		// Row 0: headers
-		// Row 1: prototype
-		List<String> names = new ArrayList<String>();
-		List<Integer> columnIndexes = new ArrayList<Integer>();
-		List<CellStyle> styles = new ArrayList<CellStyle>();
-		Row protoRow = sheet.getRow(5);
-		for (Iterator<Cell> i = protoRow.cellIterator(); i.hasNext();) {
-			Cell cell = i.next();
-			names.add(cell.getStringCellValue());
-			columnIndexes.add(cell.getColumnIndex());
-			styles.add(cell.getCellStyle());
-		}
-		// Lets add the contained objects
-		boolean first = true;
-		int rowNum = 6;
-		int count = 0;
-		for (int index = startIndex; index < objects.size(); index++) {
-			Object entity = objects.get(index);
-			Row row;
-			if (first) {
-				row = protoRow;
-			} else {
-				row = sheet.createRow(rowNum++);
-			}
-			for (int i = 0; i < names.size(); i++) {
-				Cell cell = row.createCell(columnIndexes.get(i));
-				cell.setCellStyle(styles.get(i));
-				Object value = getEntityPropertyValue(entity, names.get(i));
-				if (value == null) {
-					cell.setCellType(Cell.CELL_TYPE_BLANK);
-				} else {
-					if (value instanceof Number) {
-						cell.setCellValue(((Number) value).doubleValue());
-					} else if (value instanceof java.util.Date) {
-						cell.setCellValue((java.util.Date) value);
-					} else if (value instanceof Boolean) {
-						cell.setCellValue((Boolean) value);
-					} else {
-						cell.setCellValue(value.toString());
-					}
-				}
-			}
-			first = false;
-			if (rowNum == 65535) {
-				break;
-			}
-		}
-		return count;
-	}
-	
-	protected void setAutoFilter(Sheet sheet) {
-		// Autosize
-		Row row = sheet.getRow(5);
-		int maxCellNo = -1;
-		for (Iterator<Cell> i = row.cellIterator(); i.hasNext();) {
-			int cellNo = i.next().getColumnIndex();
-			sheet.autoSizeColumn(cellNo);
-			if (cellNo > maxCellNo) {
-				maxCellNo = cellNo;
-			}
-		}
-		//sheet.setAutoFilter(new CellRangeAddress(0, 1, 0, maxCellNo));
+	public static void createCell(HSSFRow row, short i, String value, HSSFCellStyle estilo){		
+		HSSFCell cell = row.createCell(i);
+		value = value+" ";
+		cell.setCellValue(value);
+		if(estilo != null){
+			cell.setCellStyle(estilo);
+		}		
 	}
 	
 	
-	protected Object getEntityPropertyValue(Object target, String name) {
-		String[] parts = name.split("\\.");
-		try {
-			Object value = null;
-			for (String part : parts) {
-				value = PropertyUtils.getProperty(target, part);
-				target = value;
-			}
-			return value;
-		} catch (Exception ex) {
-			// Ignore...
-		}
-		return null;
-	}
-
 }
 
 
