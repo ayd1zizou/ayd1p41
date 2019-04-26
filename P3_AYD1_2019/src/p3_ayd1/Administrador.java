@@ -187,7 +187,7 @@ public class Administrador extends Utilidad {
 		}
 	}
 	
-	private int actualizar_solicitud(String estado, int cod_sol, int cod_admin){
+	protected int actualizar_solicitud(String estado, int cod_sol, int cod_admin){
 	
 		int res=0;
 		String sql ="UPDATE solicitud_credito "+
