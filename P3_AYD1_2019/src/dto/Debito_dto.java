@@ -11,8 +11,7 @@ public class Debito_dto {
 	private String FECHA;
 	private Integer CUENTA_NO_CUENTA;
 	private Integer CUENTA_USUARIO_COD_USUARIO;
-	
-	
+	private String USUARIO;
 	public Integer getNO_DEBITO() {
 		return NO_DEBITO;
 	}
@@ -55,7 +54,14 @@ public class Debito_dto {
 	public void setCUENTA_USUARIO_COD_USUARIO(Integer cUENTA_USUARIO_COD_USUARIO) {
 		CUENTA_USUARIO_COD_USUARIO = cUENTA_USUARIO_COD_USUARIO;
 	}
+	public String getUSUARIO() {
+		return USUARIO;
+	}
+	public void setUSUARIO(String uSUARIO) {
+		USUARIO = uSUARIO;
+	}
 	
+		
 		
 	
 }

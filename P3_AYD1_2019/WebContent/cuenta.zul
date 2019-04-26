@@ -1,6 +1,7 @@
 <?page title="CUENTA BANCARIA" contentType="text/html;charset=UTF-8"?>
 <zk>
 <window id="wcuenta" title="CUENTA BANCARIA" border="normal" apply="p3_ayd1.Cuenta" >
+<image id="image" src="/img/fondo.jpg" height="40px" width="40px" />
 <label value="Numero cuenta:  " /><label id="lbldcuenta" value="" /><separator/>
 <label value="Nombre:  " /><label id="lbldnombre" value="" /><separator/>
 <label value="Usuario:  " /><label id="lbldusuario" value="" /><separator/>
@@ -42,7 +43,9 @@
 		
 		
 		<tabpanel id="tTransferencia" >
-			<label value="MONTO CUENTA:    " /><label id="lblmonto" value="" /><separator height="20" />
+			<label value="MONTO CUENTA:    " style="color:blue;font-size:20px;"/><label id="lblmonto" value="" style="color:red;font-size:20px;"/><separator height="20" />
+			<separator height="20" />
+			<separator height="20" />
 			<label value="TRANSFERENCIAS" style="color:blue;font-size:30px;"/><separator height="20" />
 			<separator  height="10px" />
 			<label value="Numero Cuenta a Transferir: " /><textbox id="txttocuenta" />
@@ -84,23 +87,24 @@
 			            <listhead >
 			            	
 			                <listheader label="Código" align = "center" width="90px" />
-			                <listheader label="Descripción" align = "center" width="340px"/>
+			                <listheader label="Monto" align = "center" width="180px"/>			                
+			                <listheader label="Descripción" align = "center" width="340px"/>			                
 			                <listheader label="Cuenta Receptora" align = "center" width="180px"/>
-			                <listheader label="Monto" align = "center" width="180px"/>
-			                <listheader label="Fecha" align = "center" width="120px" />
+			                <listheader label="Usuario" align = "center" width="90px" />
 			                <listheader label="Cod. Usuario" align = "center" width="130px" />
+			                <listheader label="Fecha" align = "center" width="120px" />
 			                <listheader label="No. Cuenta" align = "center" width="130px"/>
-			                
 			                
 			            </listhead>
 			              
 			            <listitem  self="@{each='listaTransferencia'}" value="@{Debito_dto}"  draggable="true"  selected="true" >			            	
 			            	<listcell label ="@{listaTransferencia.NO_DEBITO}"/>
+			            	<listcell label ="@{listaTransferencia.MONTO}"/>
 			            	<listcell label ="@{listaTransferencia.DESCRIPCION}"/>
 			            	<listcell label ="@{listaTransferencia.CUENTA_RECEPTORA}"/>
-			            	<listcell label ="@{listaTransferencia.MONTO}"/>			            	            	 
-			            	<listcell label ="@{listaTransferencia.FECHA}"/>
-			            	<listcell label ="@{listaTransferencia.CUENTA_USUARIO_COD_USUARIO}"/>
+			            	<listcell label ="@{listaTransferencia.USUARIO}"/>
+			            	<listcell label ="@{listaTransferencia.CUENTA_USUARIO_COD_USUARIO}"/>			            	            	 
+			            	<listcell label ="@{listaTransferencia.FECHA}"/>			            	
 			            	<listcell label ="@{listaTransferencia.CUENTA_NO_CUENTA}"/>
 			            </listitem>
 			         
@@ -111,6 +115,9 @@
 			   <separator height="30px"/>
 				
 			</div>
+			<separator height="20px"/>
+			<button label="Exportar Historial" id="btnexportar"  /><separator/>
+			
 			
 		</tabpanel>
 		

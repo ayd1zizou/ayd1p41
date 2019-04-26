@@ -84,9 +84,11 @@ public class Login extends Utilidad{
 	
 	
 	private void obtienecuenta(Integer cod) throws SQLException{		
-		String sql ="SELECT NO_CUENTA, SALDO, USUARIO_COD_USUARIO "+
-						"FROM CUENTA "+
-						" WHERE USUARIO_COD_USUARIO="+cod.intValue();
+		String sql ="SELECT NO_CUENTA, SALDO, USUARIO_COD_USUARIO,USUARIO "+
+				" FROM CUENTA, USUARIO "+
+				" WHERE "+ 
+				" USUARIO_COD_USUARIO = COD_USUARIO "+
+				" AND USUARIO_COD_USUARIO= "+cod.intValue();
 		BeanListHandler<Cuenta_dto> auxiliarBean = new BeanListHandler<Cuenta_dto>(Cuenta_dto.class);
 		List<Cuenta_dto> auxiliarLista = new ArrayList<Cuenta_dto>();
 		auxiliarLista  =  Utilidad.ejecutaConsultaList(sql, auxiliarBean);				

@@ -1,14 +1,32 @@
 package p3_ayd1;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.zkoss.util.media.AMedia;
+import org.zkoss.zhtml.Filedownload;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zkplus.databind.AnnotateDataBinder;
+import org.zkoss.zss.model.impl.ExcelExporter;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
@@ -17,6 +35,11 @@ import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+
+import dto.Credito_dto;
 import dto.Cuenta_dto;
 import dto.Debito_dto;
 
@@ -39,7 +62,7 @@ public class Cuenta extends Utilidad {
 	public Label lbletmonto, lbletcuenta,lblrtransferencia;
 	Cuenta_dto dc;
 	Usuario_dto du;
-	private Listbox tablahistorial;
+	public Listbox tablahistorial;
 	
 	
 	public List<Debito_dto>  listaTransferencia = null;
@@ -95,10 +118,12 @@ public class Cuenta extends Utilidad {
 	}
 	
 	private List<Debito_dto> obtieneListado(String codcuenta){
-		String sql="SELECT NO_DEBITO, MONTO, DESCRIPCION,CUENTA_RECEPTORA, FECHA, "+
-			" CUENTA_NO_CUENTA,CUENTA_USUARIO_COD_USUARIO "+
-			" FROM DEBITO "+ 
-			" WHERE CUENTA_NO_CUENTA= "+codcuenta;
+		String sql="SELECT NO_DEBITO, MONTO, DESCRIPCION,CUENTA_RECEPTORA,USUARIO.USUARIO USUARIO, FECHA, "+
+					" CUENTA_NO_CUENTA,CUENTA_USUARIO_COD_USUARIO "+
+					" FROM DEBITO ,USUARIO	 "+
+					" WHERE " +
+					" CUENTA_USUARIO_COD_USUARIO=COD_USUARIO "+
+					" AND  CUENTA_NO_CUENTA= "+codcuenta;
 		BeanListHandler<Debito_dto> auxiliar = new BeanListHandler<Debito_dto>(Debito_dto.class);			
 		List<Debito_dto> auxiliarLista = new ArrayList<Debito_dto>();
 		auxiliarLista  =  Utilidad.ejecutaConsultaList(sql, auxiliar);
@@ -116,9 +141,11 @@ public class Cuenta extends Utilidad {
 	
 	@SuppressWarnings("unchecked")
 	private void obtienecuenta(String cod_usu) throws SQLException{
-		String sql =" SELECT NO_CUENTA, SALDO, USUARIO_COD_USUARIO "+
-				" FROM CUENTA "+
-				" WHERE USUARIO_COD_USUARIO="+cod_usu;
+		String sql =" SELECT NO_CUENTA, SALDO, USUARIO_COD_USUARIO,USUARIO "+
+					" FROM CUENTA, USUARIO "+
+					" WHERE  "+ 
+					" USUARIO_COD_USUARIO = COD_USUARIO "+
+					" AND USUARIO_COD_USUARIO= "+cod_usu;
 			BeanListHandler<Cuenta_dto> auxiliarBean = new BeanListHandler<Cuenta_dto>(Cuenta_dto.class);
 			List<Cuenta_dto> auxiliarLista = new ArrayList<Cuenta_dto>();
 			auxiliarLista  =  Utilidad.ejecutaConsultaList(sql, auxiliarBean);				
@@ -584,5 +611,211 @@ public class Cuenta extends Utilidad {
 		
 		return res;
 	}
+	
+	
+	public void onClick$btnexportar() throws Exception{
+		System.out.println("ANTES DE ENVIAR A GENERAR EL INFORME");
+		generaReporte();
+	}
+	
+	private void generaReporte() throws Exception{		
+		try{
+			if (listaTransferencia == null || listaTransferencia.size() == 0 
+					|| listaTransferencia.isEmpty()){
+				Messagebox.show("No se generó el informe ya que la tabla está vacía.");
+				return;
+			}
+			
+			SimpleDateFormat formateador = new SimpleDateFormat("dd/MMMM/yyyy_HH:mm:ss");
+			Date fecha = new Date();
+			
+			
+			String ruta="/P3_AYD1_2019/reporte/reporte_cuenta.xls";
+			String ruta2="/P3_AYD1_2019/reporte_cuenta.xls";
+			String ruta3 = Executions.getCurrent().getContextPath();
+			
+			
+			File archivo = new File(ruta);
+			File archivo2 = new File(ruta2);
+			File archivo3 = new File(ruta3);
+			
+			System.out.println("RUTA:"+archivo.exists());
+			System.out.println("RUTA2:"+archivo2.exists());
+			System.out.println("RUTA3:"+ruta3);
+			
+			{
+				
+				
+				/*
+				
+				
+				 Workbook workbook = new HSSFWorkbook();
+				    Sheet listSheet = workbook.createSheet("reporte");
+
+				    int rowIndex = 2;
+				    for(Debito_dto dt: listaTransferencia ) {
+				        Row row = listSheet.createRow(rowIndex++);
+				        int cellIndex = 0;
+				        row.createCell(cellIndex++).setCellValue(dt.getNO_DEBITO().intValue());
+				        row.createCell(cellIndex++).setCellValue(dt.getMONTO().intValue());
+				        row.createCell(cellIndex++).setCellValue(dt.getDESCRIPCION());
+				        if(dt.getCUENTA_RECEPTORA()!=null){
+				        	row.createCell(cellIndex++).setCellValue(dt.getCUENTA_RECEPTORA().intValue());
+				        }else{
+				        	row.createCell(cellIndex++).setCellValue("");				        	
+				        }
+				        row.createCell(cellIndex++).setCellValue(dt.getUSUARIO());
+				        row.createCell(cellIndex++).setCellValue(dt.getCUENTA_USUARIO_COD_USUARIO().intValue());
+				        row.createCell(cellIndex++).setCellValue(dt.getFECHA());
+				        row.createCell(cellIndex++).setCellValue(dt.getCUENTA_NO_CUENTA().intValue());
+				    }
+
+				    try {
+				        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				        workbook.write(baos);
+				        AMedia amedia = new AMedia("historial.xls", "xls",
+				                "application/file", baos.toByteArray());
+				        Filedownload.save(amedia);
+				        baos.close();
+				    } catch (Exception e) {
+				        e.printStackTrace();
+				    }
+				*/
+				
+				
+				
+				
+				
+				
+				
+				
+			}
+		}catch(Exception e){
+			Messagebox.show("Ocurrió un error al exportar el informe.");
+			e.printStackTrace();
+		}
+	}	
+	
+	private Workbook generateExcelWorkbook(String fileName,
+			List<? extends Object> objects) throws Exception {
+		System.out.println("ruta: "+fileName);
+		InputStream in = this.getClass().getResourceAsStream(fileName);
+		try {
+			Workbook wb = WorkbookFactory.create(in);
+			return generateExcelWorkbook(wb, objects);
+		} finally {
+			in.close();
+		}
+	}
+	
+	protected byte[] excelAsByteArray(Workbook wb) throws Exception {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		wb.write(out);
+		return out.toByteArray();
+	}
+	
+	protected Workbook generateExcelWorkbook(Workbook workbookBase,
+			List<? extends Object> objects) throws Exception {
+		if (workbookBase == null) {
+			throw new IllegalArgumentException("workbookBase can't be null.");
+		}
+		Sheet sheet = workbookBase.getSheetAt(0);
+		fillExcelSheet(sheet, objects, 0);
+		if (objects.size() > 65535){
+			Sheet sheet2 = workbookBase.getSheetAt(1);
+			fillExcelSheet(sheet2, objects, 65534);
+			setAutoFilter(sheet2);
+		}
+		setAutoFilter(sheet);
+
+		return workbookBase;
+	}
+	
+	protected int fillExcelSheet(Sheet sheet, List<? extends Object> objects,
+			int startIndex) {
+		if (sheet == null) {
+			throw new IllegalArgumentException("sheet can't be null.");
+		}
+		// Row 0: headers
+		// Row 1: prototype
+		List<String> names = new ArrayList<String>();
+		List<Integer> columnIndexes = new ArrayList<Integer>();
+		List<CellStyle> styles = new ArrayList<CellStyle>();
+		Row protoRow = sheet.getRow(5);
+		for (Iterator<Cell> i = protoRow.cellIterator(); i.hasNext();) {
+			Cell cell = i.next();
+			names.add(cell.getStringCellValue());
+			columnIndexes.add(cell.getColumnIndex());
+			styles.add(cell.getCellStyle());
+		}
+		// Lets add the contained objects
+		boolean first = true;
+		int rowNum = 6;
+		int count = 0;
+		for (int index = startIndex; index < objects.size(); index++) {
+			Object entity = objects.get(index);
+			Row row;
+			if (first) {
+				row = protoRow;
+			} else {
+				row = sheet.createRow(rowNum++);
+			}
+			for (int i = 0; i < names.size(); i++) {
+				Cell cell = row.createCell(columnIndexes.get(i));
+				cell.setCellStyle(styles.get(i));
+				Object value = getEntityPropertyValue(entity, names.get(i));
+				if (value == null) {
+					cell.setCellType(Cell.CELL_TYPE_BLANK);
+				} else {
+					if (value instanceof Number) {
+						cell.setCellValue(((Number) value).doubleValue());
+					} else if (value instanceof java.util.Date) {
+						cell.setCellValue((java.util.Date) value);
+					} else if (value instanceof Boolean) {
+						cell.setCellValue((Boolean) value);
+					} else {
+						cell.setCellValue(value.toString());
+					}
+				}
+			}
+			first = false;
+			if (rowNum == 65535) {
+				break;
+			}
+		}
+		return count;
+	}
+	
+	protected void setAutoFilter(Sheet sheet) {
+		// Autosize
+		Row row = sheet.getRow(5);
+		int maxCellNo = -1;
+		for (Iterator<Cell> i = row.cellIterator(); i.hasNext();) {
+			int cellNo = i.next().getColumnIndex();
+			sheet.autoSizeColumn(cellNo);
+			if (cellNo > maxCellNo) {
+				maxCellNo = cellNo;
+			}
+		}
+		//sheet.setAutoFilter(new CellRangeAddress(0, 1, 0, maxCellNo));
+	}
+	
+	
+	protected Object getEntityPropertyValue(Object target, String name) {
+		String[] parts = name.split("\\.");
+		try {
+			Object value = null;
+			for (String part : parts) {
+				value = PropertyUtils.getProperty(target, part);
+				target = value;
+			}
+			return value;
+		} catch (Exception ex) {
+			// Ignore...
+		}
+		return null;
+	}
 
 }
+
+

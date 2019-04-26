@@ -6,6 +6,7 @@ public class Cuenta_dto {
 	private Integer NO_CUENTA;
 	private Integer SALDO;
 	private Integer USUARIO_COD_USUARIO;
+	private String USUARIO;
 	public Integer getNO_CUENTA() {
 		return NO_CUENTA;
 	}
@@ -24,6 +25,16 @@ public class Cuenta_dto {
 	public void setUSUARIO_COD_USUARIO(Integer uSUARIO_COD_USUARIO) {
 		USUARIO_COD_USUARIO = uSUARIO_COD_USUARIO;
 	}
+	public String getUSUARIO() {
+		return USUARIO;
+	}
+	public void setUSUARIO(String uSUARIO) {
+		USUARIO = uSUARIO;
+	}
+	
+	
+	
+	
 	
 	
 }
