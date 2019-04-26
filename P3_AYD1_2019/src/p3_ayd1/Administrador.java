@@ -84,7 +84,7 @@ public class Administrador extends Utilidad {
 	public void onClick$btnsalir(){
 		Sessions.getCurrent().setAttribute("cuenta",null);
 		Sessions.getCurrent().setAttribute("usuario",null);
-		Executions.sendRedirect("../P3_AYD1/login.zul");
+		Executions.sendRedirect("../P3_AYD1_2019/login.zul");
 		
 	}
 	

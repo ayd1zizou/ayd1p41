@@ -109,7 +109,7 @@ public class Cuenta extends Utilidad {
 	
 	
 	public void onClick$btnsalir(){
-		Executions.sendRedirect("../P3_AYD1/login.zul");
+		Executions.sendRedirect("../P3_AYD1_2019/login.zul");
 		
 	}
 	

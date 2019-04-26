@@ -61,10 +61,13 @@ public class Login extends Utilidad{
 				
 				Usuario_dto usu =obtieneusuario(txtusuario.getValue());
 				if(usu.getROL().intValue()==1){
-					Executions.sendRedirect("../P3_AYD1/cuenta.zul");
+					System.out.println("va a redireccionar");
+					Executions.sendRedirect("../P3_AYD1_2019/cuenta.zul");
+					
 				}else{
 					Sessions.getCurrent().setAttribute("cuenta", null);
-					Executions.sendRedirect("../P3_AYD1/administrador.zul");					
+					Executions.sendRedirect("../P3_AYD1_2019/administrador.zul");
+					
 				}
 			}else
 			if(consulta==-1){
