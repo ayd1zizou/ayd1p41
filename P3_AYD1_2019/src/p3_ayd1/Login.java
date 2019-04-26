@@ -63,7 +63,7 @@ public class Login extends Utilidad{
 				if(usu.getROL().intValue()==1){
 					System.out.println("va a redireccionar");
 					Executions.sendRedirect("../P3_AYD1_2019/cuenta.zul");
-					
+					 
 				}else{
 					Sessions.getCurrent().setAttribute("cuenta", null);
 					Executions.sendRedirect("../P3_AYD1_2019/administrador.zul");
