@@ -205,7 +205,7 @@ public class Administrador extends Utilidad {
 		return res;
 	}
 	
-	private int actualizar_credito(String estado,String feresi,  int cod_usuario){
+	protected int actualizar_credito(String estado,String feresi,  int cod_usuario){
 		
 		int res=0;
 		String sql ="UPDATE credito "+
