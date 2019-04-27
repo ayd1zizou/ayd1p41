@@ -370,7 +370,7 @@ private int actualizar_cuenta(int monto, int cod_usuario){
 		return auxiliarLista;		
 	}
 	
-	private int verificarCamposDebitar(String cuenta, String monto, String des, String tdebito){
+	protected int verificarCamposDebitar(String cuenta, String monto, String des, String tdebito){
 		int res=0;
 		//se verifican que todos los campos esten llenos de info
 		if(cuenta==null || cuenta.isEmpty()||cuenta.toString().trim().equals("")){			

@@ -23,5 +23,13 @@ public class AdministradorTest {
 		int esperado =1;
 		assertEquals(esperado, res);
 	}
+	
+	@Test
+	public void verificarCamposDebitar() {
+		Administrador admin = new Administrador();
+		int res=admin.verificarCamposDebitar("1", "50", "des", "asdff");
+		int esperado =0;
+		assertEquals(esperado, res);
+	}
 
 }
