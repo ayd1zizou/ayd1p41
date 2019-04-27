@@ -6,7 +6,7 @@
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="P3_AYD1_2019">
     <property environment="env"/>
     <property name="ECLIPSE_HOME" value="../../../Documents/eclipse-jee-juno-SR2-win32-x86_64/eclipse"/>
-    <property name="junit.output.dir" value="C:\Program Files (x86)\Jenkins\workspace\ayd1p4_publicacion\P3_AYD1_2019\reporte"/>
+    <property name="junit.output.dir" value="C:\Users\CARZIZOU\git\P3_AYD1_2019\P3_AYD1_2019\reporte"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.5"/>
     <property name="source" value="1.5"/>
